@@ -16,6 +16,7 @@ const modalCloseBtn = document.querySelectorAll(".close");
 const first = document.getElementById("first");
 const last = document.getElementById("last");
 const email = document.getElementById("email");
+const birthdate = document.getElementById("birthdate");
 const quantity = document.getElementById("quantity");
 const location1 = document.getElementById("location1");
 const location2 = document.getElementById("location2");
@@ -24,6 +25,9 @@ const location4 = document.getElementById("location4");
 const location5 = document.getElementById("location5");
 const location6 = document.getElementById("location6");
 const checkbox = document.getElementById("checkbox1");
+
+// use for the form validation, change to false if one condition doesn't match 
+var isValid = true;
 
 // launch modal event
 modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
@@ -41,63 +45,65 @@ function closeModal() {
   modalbg.style.display = "none";
 }
 
+//add error message with index of the div
+function addError(index, message){
+	formData[index].setAttribute("data-error-visible","true");
+	formData[index].setAttribute("data-error", message);
+	isValid = false;
+}
+
+//remove error message
+function removeError(index){
+	formData[index].removeAttribute("data-error-visible");
+	formData[index].removeAttribute("data-error");
+}
+
 // validate form
 function validate() {
 
 	var emailReg = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
 	if(first.value=="" || first.value.length < 2){
-		formData[0].setAttribute("data-error-visible","true");
-		formData[0].setAttribute("data-error", "Veuillez entrer 2 caractères ou plus pour le champ du prénom.");
-		return false; 
+		addError(0, "Veuillez entrer 2 caractères ou plus pour le champ du prénom.");
 	} else {
-		formData[0].removeAttribute("data-error-visible");
-		formData[0].removeAttribute("data-error");
+		removeError(0);
 	}
 
 	if(last.value=="" || last.value.length < 2){
-		formData[1].setAttribute("data-error-visible","true");
-		formData[1].setAttribute("data-error", "Veuillez entrer 2 caractères ou plus pour le champ du nom.");
-		return false;
+		addError(1, "Veuillez entrer 2 caractères ou plus pour le champ du nom.");
 	} else {
-		formData[1].removeAttribute("data-error-visible");
-		formData[1].removeAttribute("data-error");
+		removeError(1);
 	}
 
 	if(email.value=="" || !emailReg.test(email.value)){
-		formData[2].setAttribute("data-error-visible","true");
-		formData[2].setAttribute("data-error", "Veuillez saisir une adresse mail valide.");
-		return false;
+		addError(2, "Veuillez saisir une adresse mail valide.");
 	} else {
-		formData[2].removeAttribute("data-error-visible");
-		formData[2].removeAttribute("data-error");
+		removeError(2);
+	}
+
+	if(birthdate.value==""){
+		addError(3, "Vous devez entrer votre date de naissance");
+	} else {
+		removeError(3);
 	}
 
 	if(quantity.value=="" || !typeof quantity == 'number'){
-		formData[4].setAttribute("data-error-visible","true");
-		formData[4].setAttribute("data-error", "Vous devez indiquer le nombre de tournois auxquels vous avez participé.");
-		return false;
+		addError(4, "Vous devez indiquer le nombre de tournois auxquels vous avez participé.");
 	} else {
-		formData[4].removeAttribute("data-error-visible");
-		formData[4].removeAttribute("data-error");
+		removeError(4);
 	}
 
 	if(!(location1.checked || location2.checked || location3.checked || location4.checked || location5.checked || location6.checked)){
-		formData[5].setAttribute("data-error-visible","true");
-		formData[5].setAttribute("data-error", "Vous devez sélectionner une ville.");
-		return false;
+		addError(5, "Vous devez choisir une option.");
 	} else {
-		formData[5].removeAttribute("data-error-visible");
-		formData[5].removeAttribute("data-error");
+		removeError(5);
 	}
 
 	if(!checkbox1.checked){
-		formData[6].setAttribute("data-error-visible","true");
-		formData[6].setAttribute("data-error", "Vous devez vérifier que vous acceptez les termes et conditions.");
-		return false;
+		addError(6, "Vous devez vérifier que vous acceptez les termes et conditions.")
 	} else {
-		formData[6].removeAttribute("data-error-visible");
-		formData[6].removeAttribute("data-error");
+		removeError(6);
 	}
-}
 
+	return isValid;
+}
