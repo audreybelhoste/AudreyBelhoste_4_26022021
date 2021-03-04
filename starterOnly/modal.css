@@ -31,8 +31,7 @@ img {
 }
 
 .topnav {
-  overflow: hidden;
-  margin: 3.5%;
+  padding: 20px;
 }
 
 .header-logo {
@@ -76,7 +75,7 @@ img {
   display: none;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 1100px) {
   .topnav a {display: none;}
   .topnav a.icon {
     float: right;
@@ -88,28 +87,29 @@ img {
 }
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 1100px) {
   .topnav.responsive {position: relative;}
   .topnav.responsive .icon {
     position: absolute;
-    right: 0;
-    top: 0;
+    right: 20px;
+    top: 10px;
   }
   .topnav.responsive a {
     float: none;
     display: block;
     text-align: left;
   }
+  .main-navbar{
+	  margin-top: -10px;
+  }
 }
 
-@media screen and (max-width: 540px) {
-  .topnav a {display: none;}
-  .topnav a.icon {
-    float: right;
-    display: block;
-    margin-top: -15px;
-  }
-} 
+@media screen and (max-width: 422px) {
+	.main-navbar a:first-child{
+		margin-top: 30px;
+	}
+}
+
 
 main {
   font-size: 130%;
@@ -447,7 +447,7 @@ input[data-error]::after {
   z-index: 1;
 }
 .hero-headline {
-  font-size: 6rem;
+  font-size: clamp(48px, 9vw, 96px);
   font-weight: normal;
   white-space: nowrap;
 }
@@ -507,12 +507,11 @@ footer {
     display: none;
   }
   .hero-headline {
-    font-size: 3.5rem;
     white-space: normal;
   }
   .hero-text {
     width: unset;
-    font-size: 1rem;
+    font-size: 0.9rem;
 	margin-top: 20px;
   }
   .hero-img img {
