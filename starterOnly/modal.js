@@ -13,6 +13,7 @@ const modalBtn = document.querySelectorAll(".modal-btn");
 const formData = document.querySelectorAll(".formData");
 const modalCloseBtn = document.querySelectorAll(".close");
 
+const form = document.getElementById("form");
 const first = document.getElementById("first");
 const last = document.getElementById("last");
 const email = document.getElementById("email");
@@ -25,9 +26,10 @@ const location4 = document.getElementById("location4");
 const location5 = document.getElementById("location5");
 const location6 = document.getElementById("location6");
 const checkbox = document.getElementById("checkbox1");
+const confirmation = document.querySelector(".confirmation");
 
 // use for the form validation, change to false if one condition doesn't match 
-var isValid = true;
+var isValid;
 
 // launch modal event
 modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
@@ -58,10 +60,22 @@ function removeError(index){
 	formData[index].removeAttribute("data-error");
 }
 
+form.addEventListener("submit", function(event){
+	event.preventDefault();
+	validate();
+
+	if(validate()){
+		displayConfirmation();
+	}
+	
+})
+
 // validate form
 function validate() {
 
 	var emailReg = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+
+	isValid = true;
 
 	if(first.value=="" || first.value.length < 2){
 		addError(0, "Veuillez entrer 2 caractères ou plus pour le champ du prénom.");
@@ -106,4 +120,9 @@ function validate() {
 	}
 
 	return isValid;
+}
+
+function displayConfirmation() {
+	form.style.display = "none";
+	confirmation.style.display = "block";
 }
