@@ -51,20 +51,20 @@ function closeModal() {
   modalbg.style.display = "none";
 }
 
-//add error message with index of the div
+// add error message with index of the div
 function addError(index, message){
 	formData[index].setAttribute("data-error-visible","true");
 	formData[index].setAttribute("data-error", message);
 	isValid = false;
 }
 
-//remove error message
+// remove error message
 function removeError(index){
 	formData[index].removeAttribute("data-error-visible");
 	formData[index].removeAttribute("data-error");
 }
 
-//listen the submit event of the form, block the submit to check for errors and display confirmation if form is valid
+// listen the submit event of the form, block the submit to check for errors and display confirmation if form is valid
 form.addEventListener("submit", function(event){
 	event.preventDefault();
 
@@ -103,7 +103,7 @@ function validate() {
 
 	// check birthdate is not empty
 	if(birthdate.value==""){
-		addError(3, "Vous devez entrer votre date de naissance");
+		addError(3, "Vous devez entrer votre date de naissance.");
 	} else {
 		removeError(3);
 	}
