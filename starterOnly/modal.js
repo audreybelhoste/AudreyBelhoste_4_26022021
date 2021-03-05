@@ -12,6 +12,7 @@ const modalbg = document.querySelector(".bground");
 const modalBtn = document.querySelectorAll(".modal-btn");
 const formData = document.querySelectorAll(".formData");
 const modalCloseBtn = document.querySelectorAll(".close");
+const confirmationCloseBtn = document.querySelectorAll(".btn-close");
 
 const form = document.getElementById("form");
 const first = document.getElementById("first");
@@ -42,6 +43,9 @@ function launchModal() {
 // close modal event
 modalCloseBtn.forEach((btn) => btn.addEventListener("click", closeModal));
 
+// close modal event
+confirmationCloseBtn.forEach((btn) => btn.addEventListener("click", closeModal));
+
 // close modal form
 function closeModal() {
   modalbg.style.display = "none";
@@ -60,59 +64,65 @@ function removeError(index){
 	formData[index].removeAttribute("data-error");
 }
 
+//listen the submit event of the form, block the submit to check for errors and display confirmation if form is valid
 form.addEventListener("submit", function(event){
 	event.preventDefault();
-	validate();
 
 	if(validate()){
 		displayConfirmation();
 	}
-	
 })
 
-// validate form
+// validate form, add error message
 function validate() {
 
 	var emailReg = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
 	isValid = true;
 
+	// check is firstname is not empty and at least 2 characters 
 	if(first.value=="" || first.value.length < 2){
 		addError(0, "Veuillez entrer 2 caractères ou plus pour le champ du prénom.");
 	} else {
 		removeError(0);
 	}
 
+	// check lastname is not empty and at least 2 characters 
 	if(last.value=="" || last.value.length < 2){
 		addError(1, "Veuillez entrer 2 caractères ou plus pour le champ du nom.");
 	} else {
 		removeError(1);
 	}
 
+	// check email format
 	if(email.value=="" || !emailReg.test(email.value)){
 		addError(2, "Veuillez saisir une adresse mail valide.");
 	} else {
 		removeError(2);
 	}
 
+	// check birthdate is not empty
 	if(birthdate.value==""){
 		addError(3, "Vous devez entrer votre date de naissance");
 	} else {
 		removeError(3);
 	}
 
-	if(quantity.value=="" || !typeof quantity == 'number'){
+	// check quantity is not empty and is a number
+	if(quantity.value=="" || isNaN(quantity.value)){
 		addError(4, "Vous devez indiquer le nombre de tournois auxquels vous avez participé.");
 	} else {
 		removeError(4);
 	}
 
+	// check one location is selected
 	if(!(location1.checked || location2.checked || location3.checked || location4.checked || location5.checked || location6.checked)){
 		addError(5, "Vous devez choisir une option.");
 	} else {
 		removeError(5);
 	}
 
+	// check CGU accepted
 	if(!checkbox1.checked){
 		addError(6, "Vous devez vérifier que vous acceptez les termes et conditions.")
 	} else {
@@ -122,6 +132,7 @@ function validate() {
 	return isValid;
 }
 
+// launch message confirmation
 function displayConfirmation() {
 	form.style.display = "none";
 	confirmation.style.display = "block";
